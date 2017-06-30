@@ -1,0 +1,15 @@
+<!DOCTYPE validators PUBLIC "-//Apache Structs//XWork Validator 1.0//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+<field name="category.categoryName">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>*新闻类型不允许为空</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minlength">1</param>
+			<param name="maxlength">10</param>
+			<message>*新闻类型长度必须在${minlength}和${maxlength}之间</message>
+		</field-validator>
+	</field>
+</validators>

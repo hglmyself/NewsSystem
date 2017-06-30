@@ -1,0 +1,44 @@
+<!DOCTYPE validators PUBLIC "-//Apache Structs//XWork Validator 1.0//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+<field name="news.title">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>*标题不允许为空</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minlength">0</param>
+			<param name="maxlength">255</param>
+			<message>*新闻标题的长度必须在${minlength}和${maxlength}之间</message>
+		</field-validator>
+	</field>
+	<field name="news.category.id">
+		<field-validator type="fieldexpression">
+			<param name="expression"><![CDATA[news.category.id!="0"]]></param>
+			<message>*必须属于某一新闻类型</message>
+		</field-validator>
+	</field>
+	
+	<field name="news.content">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>*新闻内容不允许为空</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minlength">10</param>
+			<param name="maxlength">4096</param>
+			<message>*新闻内容的长度必须在${minlength}和${maxlength}之间</message>
+		</field-validator>
+	</field>
+	<field name="news.source">
+	<field-validator type="requiredstring" short-circuit="true">
+		<param name="trim">true</param>
+		<message>*新闻来源不允许为空</message>
+	</field-validator>
+	<field-validator type="stringlength">
+		<param name="minlength">1</param>
+		<param name="maxlength">255</param>
+		<message>*新闻来源的长度必须在${minlength}和${maxlength}之间</message>
+	</field-validator>
+	</field>
+</validators>

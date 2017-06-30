@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.news.pojo">
+    <class name="News" table="news">
+        <id name="nid" column="nid" type="integer">
+            <generator class="native"/>
+        </id>
+        <property name="title" column="title" type="string"/>
+        <property name="content" column="content" length="2048" type="string"/>
+        <property name="source" column="source" type="string"></property>
+        <property name="issueTime" column="issueTime" type="date"/>
+        <property name="image_path" column="image_path" type="string"/>
+        <!-- 此处的lazy属性不能删除，不然按书名查询时会出现代理出错 -->
+        <many-to-one name="category" column="categoryId"
+         lazy="false" class="Category"/>
+    </class>
+</hibernate-mapping>

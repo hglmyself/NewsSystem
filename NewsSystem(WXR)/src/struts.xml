@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.i18n.encoding" value="utf-8"/>
+    <constant name="struts.custom.i18n.resources" value="message"/>
+    <!-- 管理员配置区域 -->
+     <package name="AuthorityInterceptor" namespace="/"  extends="struts-default">
+		
+		<interceptors>
+            <interceptor name="authorty" class="com.news.interceptor.AuthorityInterceptor"/>
+            <!-- 拦截器堆 -->
+            <interceptor-stack name="myStack">
+            <!-- 拦截器 -->
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="authorty"/>
+            </interceptor-stack>
+        </interceptors>
+        
+		<global-results>
+			<result name="login">/adminlogin.jsp</result>
+		</global-results>
+        
+        <action name="login" class="com.news.action.AdminAction">
+            <result name="success">/adminIndex.jsp</result>
+        </action>
+        <action name="logout" class="com.news.action.AdminAction" method="logout">
+            <result name="success">/index.jsp</result>
+            <result name="login">/adminlogin.jsp</result>
+        </action>
+        <action name="adminLogin" class="com.news.action.AdminAction" method="adminLogin">
+        	<result name="adminlogin">/adminlogin.jsp</result>  
+        	<interceptor-ref name="myStack">
+        	</interceptor-ref>
+        </action>
+    </package>
+    <!-- 新闻类型配置区域 -->
+    <package name="Category" namespace="/category" extends="struts-default">
+        <!-- 新闻类型Action 
+        	此处的name="*"表示接受任何的action请求
+        	此处的method={1}表示只能调用指定的一个方法
+        	此处的allowed-methods表示列出请求的方法 -->
+        <action name="*" class="com.news.action.CategoryAction" method="{1}">
+            <!-- 配置action请求分派 -->
+            <result name="list">categoryList.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">listCategories</param>
+                <param name="namespace">/category</param>
+            </result>
+            <result name="update">categoryUpdate.jsp</result>
+            <result name="input">addCategory.jsp</result>
+            <allowed-methods>addCategory,categoryUpdate,categoryUpdated,deleteCategory,listCategories</allowed-methods>
+        </action>     
+    </package>
+    <!-- 新闻配置区域 -->
+ 	<package name="News" namespace="/news" extends="struts-default">
+        <!-- 新闻Action 
+        	此处的name="*"表示接受任何的action请求
+        	此处的method={1}表示只能调用指定的一个方法
+        	此处的allowed-methods表示列出请求的方法 -->
+        <action name="*" class="com.news.action.NewsAction" method="{1}">
+        <!-- 配置fileUpload的拦截器 -->
+			<interceptor-ref name="fileUpload">
+			    <!-- 设置上传文件类型 -->
+				<param name="allowedTypes">image/jpeg,image/pjpeg,image/x-png,image/gif,image/bmp</param>
+				<!-- 设置上传文件大小 -->
+				<param name="maximumSize">10000000</param>
+			</interceptor-ref>
+			<!-- 默认拦截器 -->
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="list">newlist.jsp</result>
+            <result name="show">shownewsinfo.jsp</result>
+            <result name="input">addnews.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">queryByPage</param>
+                <param name="namespace">/news</param>
+            </result>
+            <result name="update">newsUpdate.jsp</result>
+            <result name="newsByCategory">/newsByCategory.jsp</result>
+            <allowed-methods>addNews,queryByPage,updateNews,updatedNews,deleteNews,newsList,findCategory,SearchNewsByCategory,showNews,NewsByCategory</allowed-methods>
+        </action>     
+    </package>
+   
+</struts>

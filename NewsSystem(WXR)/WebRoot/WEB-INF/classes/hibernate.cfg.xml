@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 方言 -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="show_sql">true</property>
+		<!-- 设置自动建表 -->
+		<property name="hbm2ddl.auto">update</property>
+
+		<!-- 映射文件 -->
+		<mapping resource="com/news/pojo/Admin.hbm.xml" />
+		<mapping resource="com/news/pojo/Category.hbm.xml" />
+		<mapping resource="com/news/pojo/News.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>
